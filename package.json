@@ -9,7 +9,10 @@
     "ts-jest": "^29.0.5"
   },
   "jest": {
-    "preset": "ts-jest"
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageReporters": ["html"]
   },
   "scripts": {
     "test": "npx jest --watchAll"
