@@ -19,5 +19,8 @@
   },
   "scripts": {
     "test": "npx jest --watchAll"
+  },
+  "dependencies": {
+    "@testing-library/dom": "^8.20.0"
   }
 }

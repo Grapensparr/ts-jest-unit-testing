@@ -136,4 +136,15 @@ describe('Functions related to clearTodos', () => {
         expect(spyOnRemoveAllTodos).toHaveBeenCalled();
         spyOnRemoveAllTodos.mockRestore();
     });
+
+    test("Should remove all todos", () => {
+        //Arrange
+        const todos: Todo[] = [{ text: 'Test Todo', done: true }];
+        
+        //Act
+        functions.removeAllTodos(todos);
+
+        //Assert
+        expect(todos.length).toBe(0);
+    });
 });
