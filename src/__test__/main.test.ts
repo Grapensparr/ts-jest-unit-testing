@@ -137,7 +137,7 @@ describe('Functions related to clearTodos', () => {
         spyOnRemoveAllTodos.mockRestore();
     });
 
-    test("Should remove all todos", () => {
+    test('Should remove all todos', () => {
         //Arrange
         const todos: Todo[] = [{ text: 'Test Todo', done: true }];
         
@@ -146,5 +146,52 @@ describe('Functions related to clearTodos', () => {
 
         //Assert
         expect(todos.length).toBe(0);
+    });
+});
+
+describe('Testing event listeners', () => {
+    test('Should clear todos on click', () => {
+        //Arrange
+        const spyOnClearTodos = jest.spyOn(main, 'clearTodos').mockReturnValue();
+
+        document.body.innerHTML = `
+            <button type="button" id="clearTodos">Rensa lista</button>
+        `;
+
+        //Act
+        main.clearButton();
+
+        //Assert
+        const clearTodosByClick = document.getElementById('clearTodos') as HTMLButtonElement;
+        clearTodosByClick.click();
+
+        expect(spyOnClearTodos).toHaveBeenCalled();
+        spyOnClearTodos.mockRestore();
+    });
+
+    test('Should create new form on submit', () => {
+        //Arrange
+        const spyOnCreateNewTodo = jest.spyOn(main, 'createNewTodo').mockReturnValue();
+
+        document.body.innerHTML = `
+            <form id="newTodoForm">
+                <div>
+                    <input type="text" id="newTodoText" />
+                    <button>Skapa</button>
+                    <button type="button" id="clearTodos">Rensa lista</button>
+                </div>
+                <div id="error" class="error"></div>
+            </form>
+        `;
+
+        //Act
+        main.newForm();
+
+        //Assert
+        const newFormByClick = document.getElementById('newTodoForm') as HTMLFormElement;
+        newFormByClick.submit();
+
+        expect(spyOnCreateNewTodo).toHaveBeenCalled();
+        spyOnCreateNewTodo.mockRestore();
     });
 });
