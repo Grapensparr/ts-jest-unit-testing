@@ -41,7 +41,7 @@ export function createHtml(todos: Todo[]) {
     "todos"
   ) as HTMLUListElement;
 
-  //todosContainer.innerHTML = "";
+  todosContainer.innerHTML = "";
 
   for (let i = 0; i < todos.length; i++) {
     let li: HTMLLIElement = document.createElement("li");
@@ -84,4 +84,19 @@ export function clearTodos(todos: Todo[]) {
   createHtml(todos);
 }
 
+document.getElementById("sortTodos")?.addEventListener("click", () => {
+  sortTodos(todos);
+});
+
+export function sortTodos(todos: Todo[]) {
+  todos.sort((a, b) => {
+    if (a.text < b.text) return -1;
+    if (a.text > b.text) return 1;
+    return 0;
+  });
+  createHtml(todos);
+}
+
 //createHtml(todos);
+clearButton();
+newForm();

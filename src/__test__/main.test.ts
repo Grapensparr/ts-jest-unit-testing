@@ -195,3 +195,28 @@ describe('Testing event listeners', () => {
         spyOnCreateNewTodo.mockRestore();
     });
 });
+
+describe('Testing sorting function', () => {
+    test('Should sort todos', () => {
+        //Arrange
+        const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
+        const todos = [
+            { text: 'BBB', done: true },
+            { text: 'AAA', done: true },
+            { text: 'CCC', done: true },
+            { text: 'BBB', done: true }
+        ];
+
+        document.body.innerHTML = `
+            <ul id="todos" class="todo"></ul>
+        `;
+    
+        //Act
+        main.sortTodos(todos);
+        main.createHtml(todos);
+    
+        //Assert
+        expect(spyOnCreateHtml).toHaveBeenCalled();
+        spyOnCreateHtml.mockRestore();
+    });
+});
