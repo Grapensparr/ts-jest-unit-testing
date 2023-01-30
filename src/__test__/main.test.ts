@@ -11,7 +11,6 @@ const errorMessage = 'Du måste ange minst tre bokstäver';
 const spyOnChangeTodo = jest.spyOn(functions, 'changeTodo').mockReturnValue();
 const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
 const spyOnRemoveAllTodos = jest.spyOn(functions, 'removeAllTodos').mockReturnValue();
-const randomTodo: Todo = {text: 'Random todo', done: true};
 
 beforeEach(() => {
     document.body.innerHTML = "";
@@ -86,9 +85,12 @@ describe('Testing the error message', () => {
 describe('Functions related to toggleTodo', () => {
     test('Should call changeTodo', () => {
         //Arrange
+        const todos: Todo = 
+            { text: 'Test assignment', done: true }
+        ;
 
         //Act
-        main.toggleTodo(randomTodo);
+        main.toggleTodo(todos);
 
         //Assert
         expect(spyOnChangeTodo).toHaveBeenCalled();
@@ -97,9 +99,12 @@ describe('Functions related to toggleTodo', () => {
 
     test ('Should call createHtml', () => {
         //Arrange
+        const todos: Todo = 
+            { text: 'Test assignment', done: true }
+        ;
 
         //Act
-        main.toggleTodo(randomTodo);
+        main.toggleTodo(todos);
 
         //Assert
         expect(spyOnCreateHtml).toHaveBeenCalled();
@@ -115,7 +120,7 @@ describe('Functions related to createHtml', () => {
         `;
 
         const todos = [
-            { text: 'AAA', done: true }
+            { text: 'Test assignment', done: true }
         ];
     
         //Act
@@ -145,7 +150,7 @@ describe('Functions related to clearTodos', () => {
     test('Should remove all todos', () => {
         //Arrange
         const todos = [
-            { text: 'AAA', done: true }
+            { text: 'Test assignment', done: true }
         ];
         
         //Act
