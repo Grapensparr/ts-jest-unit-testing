@@ -6,12 +6,6 @@ import * as main from '../ts/main';
 import * as functions from '../ts/functions';
 import { Todo } from '../ts/models/Todo';
 
-const todos: Todo[] = [];
-const errorMessage = 'Du måste ange minst tre bokstäver';
-const spyOnChangeTodo = jest.spyOn(functions, 'changeTodo').mockReturnValue();
-const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
-const spyOnRemoveAllTodos = jest.spyOn(functions, 'removeAllTodos').mockReturnValue();
-
 beforeEach(() => {
     document.body.innerHTML = "";
 });
@@ -24,6 +18,7 @@ describe('Functions related to creating new todo', () => {
         `;
 
         const todoList = document.getElementById('todos') as HTMLElement;
+        const todos: Todo[] = [];
         const todoText = 'Test assignment';
 
         // Act
@@ -40,6 +35,7 @@ describe('Functions related to creating new todo', () => {
         `;
 
         const error = document.getElementById('error') as HTMLElement;
+        const todos: Todo[] = [];
         const todoText = 'No';
 
         // Act
@@ -58,6 +54,7 @@ describe('Testing the error message', () => {
         `;
 
         const error = document.getElementById('error') as HTMLDivElement;
+        const errorMessage = 'Du måste ange minst tre bokstäver';
 
         // Act
 	    main.displayError(errorMessage, true);
@@ -73,6 +70,7 @@ describe('Testing the error message', () => {
         `;
 
         const error = document.getElementById('error') as HTMLDivElement;
+        const errorMessage = 'Du måste ange minst tre bokstäver';
 
         // Act
 	    main.displayError(errorMessage, false);
@@ -85,6 +83,8 @@ describe('Testing the error message', () => {
 describe('Functions related to toggleTodo', () => {
     test('Should call changeTodo', () => {
         //Arrange
+        const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
+        const spyOnChangeTodo = jest.spyOn(functions, 'changeTodo').mockReturnValue();
         const todos: Todo = 
             { text: 'Test assignment', done: true }
         ;
@@ -99,6 +99,7 @@ describe('Functions related to toggleTodo', () => {
 
     test ('Should call createHtml', () => {
         //Arrange
+        const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
         const todos: Todo = 
             { text: 'Test assignment', done: true }
         ;
@@ -139,6 +140,11 @@ describe('Functions related to clearTodos', () => {
             <ul id="todos" class="todo"></ul>
         `;
         
+        const spyOnRemoveAllTodos = jest.spyOn(functions, 'removeAllTodos').mockReturnValue();
+        const todos = [
+            { text: 'Test assignment', done: true }
+        ];
+
         //Act
         main.clearTodos(todos);
   
@@ -228,6 +234,27 @@ describe('Testing event listeners', () => {
         //Assert
         expect(spyOnCreateNewTodo).toHaveBeenCalled();
         spyOnCreateNewTodo.mockRestore();
+    });
+
+    test('Should call toggleTodo on li-click', () => {
+        //Arrange
+        document.body.innerHTML = `
+            <ul id="todos" class="todo"></ul>
+        `;
+
+        const spyOnToggleTodo = jest.spyOn(main, 'toggleTodo').mockReturnValue();
+        const todos = [
+            { text: 'Test assignment', done: true }
+        ];
+    
+        //Act
+        main.createHtml(todos);
+        const li = document.querySelector('li') as HTMLLIElement;
+        li.click();
+        
+        //Assert
+        expect(spyOnToggleTodo).toHaveBeenCalled();
+        spyOnToggleTodo.mockRestore();
     });
 
     test('Should sort todos on click', () => {
