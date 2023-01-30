@@ -84,9 +84,11 @@ export function clearTodos(todos: Todo[]) {
   createHtml(todos);
 }
 
-document.getElementById("sortTodos")?.addEventListener("click", () => {
-  sortTodos(todos);
-});
+export function sortByButton() {
+  document.getElementById("sortTodos")?.addEventListener("click", () => {
+    exports.sortTodos(todos);
+  });
+}
 
 export function sortTodos(todos: Todo[]) {
   todos.sort((a, b) => {
@@ -100,3 +102,4 @@ export function sortTodos(todos: Todo[]) {
 //createHtml(todos);
 clearButton();
 newForm();
+sortByButton();

@@ -7,7 +7,6 @@ import * as functions from '../ts/functions';
 import { Todo } from '../ts/models/Todo';
 
 const todos: Todo[] = [];
-const todoText = 'Test assignment';
 const errorMessage = 'Du måste ange minst tre bokstäver';
 const spyOnChangeTodo = jest.spyOn(functions, 'changeTodo').mockReturnValue();
 const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
@@ -25,27 +24,29 @@ describe('Functions related to creating new todo', () => {
             <ul id="todos" class="todo"></ul>
         `;
 
+        const todoList = document.getElementById('todos') as HTMLElement;
+        const todoText = 'Test assignment';
+
         // Act
 	    main.createNewTodo(todoText, todos);
 
         // Assert
-        const todoList = document.getElementById('todos') as HTMLDivElement;
 	    expect(todoList.innerHTML).toEqual(`<li class="todo__text">${todoText}</li>`);
     });
 
     test('Should display error message when failing to create new todo', () => {
         // Arrange
-	    const todoText = 'No';
-
 	    document.body.innerHTML = `
             <div id="error" class="error"></div>
         `;
+
+        const error = document.getElementById('error') as HTMLElement;
+        const todoText = 'No';
 
         // Act
 	    main.createNewTodo(todoText, todos);
 
         // Assert
-        const error = document.getElementById('error') as HTMLDivElement;
 	    expect(error.classList.contains('show')).toBe(true);
     });
 });
@@ -57,11 +58,12 @@ describe('Testing the error message', () => {
             <div id="error" class="error"></div>
         `;
 
+        const error = document.getElementById('error') as HTMLDivElement;
+
         // Act
 	    main.displayError(errorMessage, true);
 
         // Assert
-        const error = document.getElementById('error') as HTMLDivElement;
 	    expect(error.classList.contains('show')).toBe(true);
     });
 
@@ -71,11 +73,12 @@ describe('Testing the error message', () => {
             <div id="error" class="error"></div>
         `;
 
+        const error = document.getElementById('error') as HTMLDivElement;
+
         // Act
 	    main.displayError(errorMessage, false);
 
         // Assert
-        const error = document.getElementById('error') as HTMLDivElement;
 	    expect(error.classList.contains('show')).toBe(false);
     });
 });
@@ -107,11 +110,13 @@ describe('Functions related to toggleTodo', () => {
 describe('Functions related to createHtml', () => {
     test('should add class "todo__text--done" for completed tasks', () => {
         //Arrange
-        const todos = [{ text: 'Test Todo', done: true }];
-
         document.body.innerHTML = `
             <ul id="todos" class="todo"></ul>
         `;
+
+        const todos = [
+            { text: 'AAA', done: true }
+        ];
     
         //Act
         main.createHtml(todos);
@@ -139,7 +144,9 @@ describe('Functions related to clearTodos', () => {
 
     test('Should remove all todos', () => {
         //Arrange
-        const todos: Todo[] = [{ text: 'Test Todo', done: true }];
+        const todos = [
+            { text: 'AAA', done: true }
+        ];
         
         //Act
         functions.removeAllTodos(todos);
@@ -149,30 +156,52 @@ describe('Functions related to clearTodos', () => {
     });
 });
 
+describe('Testing sorting function', () => {
+    test('Should sort todos', () => {
+        //Arrange
+        document.body.innerHTML = `
+            <ul id="todos" class="todo"></ul>
+        `;
+
+        const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
+        const todos = [
+            { text: 'BBB', done: true },
+            { text: 'AAA', done: true },
+            { text: 'CCC', done: true },
+            { text: 'BBB', done: true }
+        ];
+    
+        //Act
+        main.sortTodos(todos);
+        main.createHtml(todos);
+    
+        //Assert
+        expect(spyOnCreateHtml).toHaveBeenCalled();
+        spyOnCreateHtml.mockRestore();
+    });
+});
+
 describe('Testing event listeners', () => {
     test('Should clear todos on click', () => {
         //Arrange
-        const spyOnClearTodos = jest.spyOn(main, 'clearTodos').mockReturnValue();
-
         document.body.innerHTML = `
             <button type="button" id="clearTodos">Rensa lista</button>
         `;
 
+        const spyOnClearTodos = jest.spyOn(main, 'clearTodos').mockReturnValue();
+        const clearTodosByClick = document.getElementById('clearTodos') as HTMLButtonElement;
+
         //Act
         main.clearButton();
-
-        //Assert
-        const clearTodosByClick = document.getElementById('clearTodos') as HTMLButtonElement;
         clearTodosByClick.click();
 
+        //Assert
         expect(spyOnClearTodos).toHaveBeenCalled();
         spyOnClearTodos.mockRestore();
     });
 
     test('Should create new form on submit', () => {
         //Arrange
-        const spyOnCreateNewTodo = jest.spyOn(main, 'createNewTodo').mockReturnValue();
-
         document.body.innerHTML = `
             <form id="newTodoForm">
                 <div>
@@ -184,39 +213,33 @@ describe('Testing event listeners', () => {
             </form>
         `;
 
+        const spyOnCreateNewTodo = jest.spyOn(main, 'createNewTodo').mockReturnValue();
+        const newFormByClick = document.getElementById('newTodoForm') as HTMLFormElement;
+
         //Act
         main.newForm();
-
-        //Assert
-        const newFormByClick = document.getElementById('newTodoForm') as HTMLFormElement;
         newFormByClick.submit();
 
+        //Assert
         expect(spyOnCreateNewTodo).toHaveBeenCalled();
         spyOnCreateNewTodo.mockRestore();
     });
-});
 
-describe('Testing sorting function', () => {
-    test('Should sort todos', () => {
+    test('Should sort todos on click', () => {
         //Arrange
-        const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
-        const todos = [
-            { text: 'BBB', done: true },
-            { text: 'AAA', done: true },
-            { text: 'CCC', done: true },
-            { text: 'BBB', done: true }
-        ];
-
         document.body.innerHTML = `
-            <ul id="todos" class="todo"></ul>
+            <button type="button" id="sortTodos">Sortera lista</button>
         `;
-    
+
+        const spyOnSortTodos = jest.spyOn(main, 'sortTodos').mockReturnValue();
+        const sortTodosByClick = document.getElementById('sortTodos') as HTMLButtonElement;
+
         //Act
-        main.sortTodos(todos);
-        main.createHtml(todos);
-    
+        main.sortByButton();
+        sortTodosByClick.click();
+
         //Assert
-        expect(spyOnCreateHtml).toHaveBeenCalled();
-        spyOnCreateHtml.mockRestore();
+        expect(spyOnSortTodos).toHaveBeenCalled();
+        spyOnSortTodos.mockRestore();
     });
 });
