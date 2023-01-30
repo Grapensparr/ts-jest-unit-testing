@@ -1,3 +1,11 @@
+Resultat:
+
+![image](https://user-images.githubusercontent.com/113124538/215512100-0a3db8c9-3abe-42d2-8485-754946e75b77.png)
+
+![image](https://user-images.githubusercontent.com/113124538/215512165-c400905c-ca25-4705-8851-46ceba3c4ac6.png)
+
+![image](https://user-images.githubusercontent.com/113124538/215512013-999f2e27-eb10-4bef-b802-a85de13bb8c1.png)
+
 # Inlämningsuppgift 1 - Enhetstester med jest
 
 Syftet med detta repo är att det skall fungera som er kod som ni får given. Ni skall inte ändra på funktionaliteten som nu finns på något sätt. För att komma igång med inlämningen behöver ni göra följande:
