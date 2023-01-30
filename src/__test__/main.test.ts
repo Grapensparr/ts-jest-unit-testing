@@ -176,9 +176,9 @@ describe('Testing sorting function', () => {
 
         const spyOnCreateHtml = jest.spyOn(main, 'createHtml').mockReturnValue();
         const todos = [
-            { text: 'BBB', done: true },
+            { text: 'BBB', done: false },
             { text: 'AAA', done: true },
-            { text: 'CCC', done: true },
+            { text: 'CCC', done: false },
             { text: 'BBB', done: true }
         ];
     
