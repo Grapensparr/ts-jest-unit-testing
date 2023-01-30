@@ -4,7 +4,7 @@ Resultat:
 
 ![image](https://user-images.githubusercontent.com/113124538/215512165-c400905c-ca25-4705-8851-46ceba3c4ac6.png)
 
-![image](https://user-images.githubusercontent.com/113124538/215512013-999f2e27-eb10-4bef-b802-a85de13bb8c1.png)
+![image](https://user-images.githubusercontent.com/113124538/215526092-b8b059b3-254c-4770-b921-c42dbcae6810.png)
 
 # Inlämningsuppgift 1 - Enhetstester med jest
 
