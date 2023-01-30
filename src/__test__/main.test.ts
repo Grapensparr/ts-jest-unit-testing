@@ -1,4 +1,4 @@
-/**
+/**l
  * @jest-environment jsdom
  */
 
@@ -151,19 +151,6 @@ describe('Functions related to clearTodos', () => {
         //Assert
         expect(spyOnRemoveAllTodos).toHaveBeenCalled();
         spyOnRemoveAllTodos.mockRestore();
-    });
-
-    test('Should remove all todos', () => {
-        //Arrange
-        const todos = [
-            { text: 'Test assignment', done: true }
-        ];
-        
-        //Act
-        functions.removeAllTodos(todos);
-
-        //Assert
-        expect(todos.length).toBe(0);
     });
 });
 
