@@ -96,6 +96,12 @@ export function sortTodos(todos: Todo[]) {
     if (a.text > b.text) return 1;
     return 0;
   });
+
+  todos.sort((a, b) => {
+    if (a.done < b.done) return -1;
+    if (a.done > b.done) return 1;
+    return 0;
+  });
   createHtml(todos);
 }
 
